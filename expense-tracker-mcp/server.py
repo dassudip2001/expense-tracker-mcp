@@ -39,7 +39,32 @@ def add_expense(amount: float, category: str, description: str, date: str)->str:
 
 
 # Get expenses
-
+@mcp.tool()
+def get_expenses(start_date: str="", end_date:str="", category:str="")->list[dict]:
+    """Get expenses from the database."""
+    session=get_session()
+    try:
+        query=session.query(Expense)
+        if start_date:
+            query=query.filter(Expense.date >=datetime.strftime(start_date,"%Y-%m-%d").date())
+        if end_date:
+            query=query.filter(Expense.date <=datetime.strftime(end_date,"%Y-%m-%d").date())
+        if category:
+            query=query.filter(Expense.category.ilike(f"%{category}%"))
+        expenses=query.order_by(Expense.date.desc()).all()
+        return [
+            {
+                "id": e.id,
+                "amount": e.amount,
+                "category": e.category,
+                "description": e.description,
+                "date": str(e.date)
+            } for e in expenses
+        ]
+    except Exception as e:
+        return f"Failed to get expenses: {str(e)}"
+    finally:
+        session.close()
 
 
 
