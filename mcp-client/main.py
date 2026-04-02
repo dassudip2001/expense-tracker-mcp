@@ -24,6 +24,10 @@ async def chat(query):
         "telusko":{
             "transport": "sse",
             "url": "http://localhost:8000/sse"
+        },
+        "expense-tracker":{
+            "transport": "sse",
+            "url": "http://localhost:8001/sse"
         }
     })
 
