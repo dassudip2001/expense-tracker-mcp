@@ -48,6 +48,11 @@ Start the server with:
 python main.py
 ```
 
+## Add the MCP server
+```bash
+uv run fastmcp install claude-desktop <filename.py>
+```
+
 The server will start on:
 - **Host**: localhost
 - **Port**: 8000
